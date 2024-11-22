@@ -1,6 +1,8 @@
+from shortuuid import uuid
+
 class Task:
-    def __init__(self, id, title, description, completed=False) -> None:
-        self.id = id
+    def __init__(self, title, description, completed=False) -> None:
+        self.id = uuid()
         self.title = title
         self.description = description
         self.completed = completed
