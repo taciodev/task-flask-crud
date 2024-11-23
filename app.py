@@ -33,20 +33,30 @@ def get_task(id):
 
 @app.route('/tasks/<id>', methods=['PUT'])
 def update_task(id):
-    original_task = None
+    task_to_update = None
     for task in tasks:
         if task.id == id: 
-            original_task = task
+            task_to_update = task
             break
     
-    if original_task is None:
+    if task_to_update is None:
         return jsonify({'message': 'could not find the task'}), 404
     
     data = request.get_json()
-    original_task.title = data.get('title')
-    original_task.description = data.get('description')
-    original_task.completed = data.get('completed')
+    task_to_update.title = data.get('title')
+    task_to_update.description = data.get('description')
+    task_to_update.completed = data.get('completed')
     return jsonify({'message': 'task successfully updated'})
+
+
+@app.route('/tasks/<id>', methods=['DELETE'])
+def delete_task(id):
+    for task in tasks:
+        if task.id == id: 
+            tasks.remove(task)       
+            return jsonify({'message': 'task successfully deleted'})
+    
+    return jsonify({'message': 'could not find the task'}), 404
 
 
 if __name__ == "__main__":
